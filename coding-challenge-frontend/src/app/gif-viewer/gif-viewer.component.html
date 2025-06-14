@@ -1,0 +1,35 @@
+<div class="home-page">
+    <h2>GIF searching</h2>
+    <form class="search-form" (ngSubmit)="searching()" #loginForm="ngForm">
+        <input class="GIF-input" [(ngModel)]="search" name="search" placeholder="Type search terms here" required/>
+        <br/>
+        <button class="GIF-button" type="submit">Search</button>
+    </form>
+    <h2>View the top 10 trending GIFs</h2>
+    <form class="trend-form" (ngSubmit)="trending()" #loginForm="ngForm">
+        <button class="GIF-button" type="submit">View</button>
+    </form>
+    <h2>GIF results </h2>
+    <h2>you can leave 1 comment and rating</h2>
+    <h2>trying to leave a 2nd rating or comment will just update your previous one</h2>
+    <div *ngFor="let item of gifDisplay" class="gif-item">
+        <div *ngIf="item.id">
+            <img [src]="item.url">
+            <div>
+                <input class="gif-input" [(ngModel)]="item.comment" name="comment" placeholder="Type comment here" required />
+                <button (click)="comment(item.id, item.comment)">Post Comment</button>
+            </div>
+            <div>
+                <select [(ngModel)]="item.rating">
+                    <option value="1">1★</option>
+                    <option value="2">2★</option>
+                    <option value="3">3★</option>
+                    <option value="4">4★</option>
+                    <option value="5">5★</option>
+                </select>
+                <button (click)="rate(item.id, item.rating)">Post Rate</button>
+            </div>
+        </div>
+    </div>
+    <button class="GIF-button" (click)="goToHistory()">See your comments and ratings</button>
+</div>

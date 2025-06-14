@@ -1,5 +1,6 @@
 package com.example.coding.challenge.controller;
 
+import com.example.coding.challenge.models.DTOs.RatingDTO;
 import com.example.coding.challenge.models.Rating;
 import com.example.coding.challenge.service.RatingService;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,25 +36,32 @@ public class RatingController {
     }
 
     @PostMapping
-    public ResponseEntity<Rating> createRating (@PathVariable String gifId, @RequestBody int rating_value) {
-        Rating rating = ratingService.create(gifId, rating_value, getId());
-        return ResponseEntity.ok(rating);
+    public ResponseEntity<RatingDTO> createRating (@PathVariable String gifId, @RequestBody int rating_value) {
+        Rating rate = ratingService.create(gifId, rating_value, getId());
+        RatingDTO response = new RatingDTO(rate.getGif(), rate.getUser(), rate.getRating(), rate.getRatingId());
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/all")
-    public ResponseEntity<List<Rating>> getAllRating (@PathVariable String gifId) {
-        List<Rating> list = ratingService.getAll(gifId);
-        return ResponseEntity.ok(list);
+    public ResponseEntity<List<RatingDTO>> getAllRating (@PathVariable String gifId) {
+        List<Rating> rate = ratingService.getAll(gifId);
+        List<RatingDTO> response = new ArrayList<>();
+        for (Rating temp: rate) {
+            response.add(new RatingDTO(temp.getGif(), temp.getUser(), temp.getRating(), temp.getRatingId()));
+        }
+        return ResponseEntity.ok(response);
     }
     @GetMapping
-    public ResponseEntity<Rating> getSpecificRating (@PathVariable String gifId) {
+    public ResponseEntity<RatingDTO> getSpecificRating (@PathVariable String gifId) {
         Rating rate = ratingService.getSingle(gifId, getId());
-        return ResponseEntity.ok(rate);
+        RatingDTO response = new RatingDTO(rate.getGif(), rate.getUser(), rate.getRating(), rate.getRatingId());
+        return ResponseEntity.ok(response);
 
     }
     @PutMapping()
-    public ResponseEntity<Rating> updateSpecificRating (@PathVariable String gifId, @RequestBody int rating_value) {
+    public ResponseEntity<RatingDTO> updateSpecificRating (@PathVariable String gifId, @RequestBody int rating_value) {
         Rating rate = ratingService.update(gifId, getId(), rating_value);
-        return ResponseEntity.ok(rate);
+        RatingDTO response = new RatingDTO(rate.getGif(), rate.getUser(), rate.getRating(), rate.getRatingId());
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping()

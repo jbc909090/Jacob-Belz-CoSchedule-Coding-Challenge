@@ -1,0 +1,8 @@
+<div class="history-page">
+    <h2>See your previous comments and ratings</h2>
+    <div *ngFor="let item of gifDisplay" class="gif-item">
+        <img [src]="item.url">
+        <p>{{item.rating}}★</p>
+        <p>{{item.comment}}</p>
+    </div>
+</div>

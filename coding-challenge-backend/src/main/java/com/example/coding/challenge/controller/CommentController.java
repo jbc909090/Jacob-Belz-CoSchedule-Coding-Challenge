@@ -2,6 +2,7 @@ package com.example.coding.challenge.controller;
 
 
 import com.example.coding.challenge.models.Comment;
+import com.example.coding.challenge.models.DTOs.CommentDTO;
 import com.example.coding.challenge.service.CommentService;
 
 import jakarta.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,24 +39,31 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<Comment> createComment (@PathVariable String gifId, @RequestBody String comment_text) {
+    public ResponseEntity<CommentDTO> createComment (@PathVariable String gifId, @RequestBody String comment_text) {
         Comment comment = commentService.create(gifId, comment_text, getId());
-        return ResponseEntity.ok(comment);
+        CommentDTO response = new CommentDTO(comment.getGif(), comment.getUser(), comment.getComment(), comment.getCommentId());
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/all")
-    public ResponseEntity<List<Comment>> getAllComment (@PathVariable String gifId) {
+    public ResponseEntity<List<CommentDTO>> getAllComment (@PathVariable String gifId) {
         List<Comment> comment = commentService.getAll(gifId);
-        return ResponseEntity.ok(comment);
+        List<CommentDTO> response = new ArrayList<>();
+        for (Comment temp: comment) {
+            response.add(new CommentDTO(temp.getGif(), temp.getUser(), temp.getComment(), temp.getCommentId()));
+        }
+        return ResponseEntity.ok(response);
     }
     @GetMapping
-    public ResponseEntity<Comment> getSpecificComment (@PathVariable String gifId) {
+    public ResponseEntity<CommentDTO> getSpecificComment (@PathVariable String gifId) {
         Comment comment = commentService.getSingle(gifId, getId());
-        return ResponseEntity.ok(comment);
+        CommentDTO response = new CommentDTO(comment.getGif(), comment.getUser(), comment.getComment(), comment.getCommentId());
+        return ResponseEntity.ok(response);
     }
     @PutMapping
-    public ResponseEntity<Comment> updateSpecificComment (@PathVariable String gifId, @RequestBody String comment_text) {
+    public ResponseEntity<CommentDTO> updateSpecificComment (@PathVariable String gifId, @RequestBody String comment_text) {
         Comment comment = commentService.update(gifId, comment_text, getId());
-        return ResponseEntity.ok(comment);
+        CommentDTO response = new CommentDTO(comment.getGif(), comment.getUser(), comment.getComment(), comment.getCommentId());
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping

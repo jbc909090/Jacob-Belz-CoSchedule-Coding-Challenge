@@ -15,21 +15,21 @@ public class GIF {
 
     //the id the API has associated with said
     @Column(unique = true)
-    private String gif;
+    private String gifId;
 
 
     //----------------- all boilerplate below this line -----------
 
     public GIF(String gifId) {
-        this.gif = gifId;
+        this.gifId = gifId;
     }
 
     public void setGifId(String gifId) {
-        this.gif = gifId;
+        this.gifId = gifId;
     }
 
     public String getGifId() {
-        return gif;
+        return gifId;
     }
 
     public int getId() {
@@ -44,7 +44,7 @@ public class GIF {
     public String toString() {
         return "GIF{" +
                 "id=" + id +
-                ", gifId='" + gif + '\'' +
+                ", gifId='" + gifId + '\'' +
                 '}';
     }
 }

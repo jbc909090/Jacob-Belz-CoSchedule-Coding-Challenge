@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
     List<Rating> findAllByGif(GIF gif);
     Optional<Rating> findByGifAndUser_id(GIF gif, int id);
+    List<Rating> findByUser_id(int id);
 }

@@ -3,9 +3,12 @@ package com.example.coding.challenge.controller;
 import com.example.coding.challenge.models.GIF;
 import com.example.coding.challenge.models.DTOs.GifDTO;
 import com.example.coding.challenge.service.GIFService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 
@@ -20,27 +23,27 @@ public class GIFController {
     public GIFController(GIFService gifService) {
         this.gifService = gifService;
     }
+    
+    public int getId() {
+        // get access to the session so we can extract the attributes
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attributes.getRequest().getSession(false);
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<GifDTO> getGIFById(@PathVariable String id) {
-        GifDTO gif = gifService.getById(id);
-        return ResponseEntity.ok(gif);
+        // First, we'll check if the session exists
+        if (session == null) {
+            throw new IllegalArgumentException("user must be logged in to do this!");
+        }
+        return (int) session.getAttribute("userId");
     }
-
-    @GetMapping("/search/{term}")
-    public ResponseEntity<List<GifDTO>> getGIFsBySearch(@PathVariable String term) {
-        List<GifDTO> gif = gifService.search(term);
-        return ResponseEntity.ok(gif);
-    }
-
-    @GetMapping("/trending")
-    public ResponseEntity<List<GifDTO>> getGIFsByTrending() {
-        List<GifDTO> gif = gifService.trending();
-        return ResponseEntity.ok(gif);
+    //retrieves all relevant gif ids
+    @GetMapping()
+    public ResponseEntity<List<String>> getAllAssociatedGifs () {
+        List<String> response = gifService.allAssociatedGifs(getId());
+        return ResponseEntity.ok(response);
     }
     //saves a gif to the gif id database
-    @PostMapping("/save/{id}")
-    public ResponseEntity<GIF> saveGIF (@PathVariable String id) {
+    @PostMapping("/save")
+    public ResponseEntity<GIF> saveGIF (@RequestBody String id) {
         GIF response = gifService.saveGIF(id);
         return ResponseEntity.ok(response);
     }

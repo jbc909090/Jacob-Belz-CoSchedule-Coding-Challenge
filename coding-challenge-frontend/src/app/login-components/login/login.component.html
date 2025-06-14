@@ -1,0 +1,12 @@
+<div class="Login">
+    <h2>Login to your account</h2>
+    <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <input class="login-input" [(ngModel)]="username" name="username" placeholder="Username" required/>
+        <br/>
+        <input class="login-input" [(ngModel)]="password" name="password" placeholder="Password" required/>
+        <br/>
+        <button class="login-button" type="submit">Login</button>
+    </form>
+    <p>Don't have an account?</p>
+    <button class="login-button" (click)="goToRegister()">Register</button>
+</div>

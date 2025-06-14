@@ -5,7 +5,10 @@ public class LoginDTO {
     private String password;
 
     //----------------- all boilerplate below this line -----------
-
+    public LoginDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
     public void setUsername(String username) {
         this.username = username;
     }

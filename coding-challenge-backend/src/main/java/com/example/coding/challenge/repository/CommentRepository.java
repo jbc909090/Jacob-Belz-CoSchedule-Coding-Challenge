@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     List<Comment> findAllByGif(GIF gif);
     Optional<Comment> findByGifAndUser_id(GIF gif, int id);
+    List<Comment> findByUser_id(int id);
 }

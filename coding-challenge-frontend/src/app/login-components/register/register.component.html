@@ -1,0 +1,14 @@
+<div class="Register">
+    <h2>Register your new Account</h2>
+    <form class="register-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <input class="register-input" [(ngModel)]="username" name="username" placeholder="Username" required/>
+        <br/>
+        <input class="register-input" [(ngModel)]="password" name="password" placeholder="Password" required/>
+        <br/>
+        <input class="register-input" [(ngModel)]="password2" name="password2" placeholder="Retype your password" required />
+        <br/>
+        <button class="register-button" type="submit">Register</button>
+    </form>
+    <p>Have an account?</p>
+    <button class="register-button" (click)="goToLogin()">Login</button>
+</div>
