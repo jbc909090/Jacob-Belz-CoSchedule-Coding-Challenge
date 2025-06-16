@@ -3,14 +3,13 @@ package com.example.coding.challenge.models;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
-@Component
 @Entity
 @Table(name = "Users")
 public class User {
     //the private key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private int id;
 
     //Usernames must exist and must be unique
     @Column(unique = true, nullable = false)
@@ -29,7 +28,7 @@ public class User {
         this.password = password;
     }
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.id = userId;
     }
 
     public void setUsername(String username) {
@@ -45,7 +44,7 @@ public class User {
     }
 
     public int getUserId() {
-        return userId;
+        return id;
     }
 
     public String getUsername() {
@@ -63,7 +62,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userId=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = { "http://localhost:4200" }, allowCredentials = "true")
 @RequestMapping("{gifId}/comment") //Requests ending in /{gifId}/comment will go to this Controller
 public class CommentController {
     private final CommentService commentService;

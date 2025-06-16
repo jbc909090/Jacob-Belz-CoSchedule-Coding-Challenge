@@ -10,7 +10,9 @@ import com.example.coding.challenge.models.GIF;
 import com.example.coding.challenge.repository.CommentRepository;
 import com.example.coding.challenge.repository.GIFRepository;
 import com.example.coding.challenge.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CommentService {
     CommentRepository commentRepository;
     UserRepository userRepository;
@@ -23,7 +25,7 @@ public class CommentService {
         this.userRepository = userRepository;
     }
     public Comment create (String gifId, String comment_text, int userId) {
-        Comment comment = new Comment(gifRepository.findByGif(gifId).get(), comment_text, userRepository.findById(userId).get());
+        Comment comment = new Comment(gifRepository.findByGifId(gifId).get(), comment_text, userRepository.findById(userId).get());
         Optional<Comment> check = commentRepository.findByGifAndUser_id(comment.getGif(), userId);
         if (check.isEmpty()) {
             //Letting a User leave multiple comments on a gif gets a lil messy with other crud operations with current design
@@ -33,12 +35,12 @@ public class CommentService {
         return null;
     }
     public List<Comment> getAll(String gifId) {
-        GIF gif = gifRepository.findByGif(gifId).get();
+        GIF gif = gifRepository.findByGifId(gifId).get();
         List<Comment> list = commentRepository.findAllByGif(gif);
         return list;
     }
     public Comment getSingle(String gifId, int userId) {
-        GIF gif = gifRepository.findByGif(gifId).get();
+        GIF gif = gifRepository.findByGifId(gifId).get();
         Optional<Comment> comment = commentRepository.findByGifAndUser_id(gif, userId);
         if (comment.isPresent()) {
             return comment.get();
@@ -47,7 +49,7 @@ public class CommentService {
     }
     
     public Comment update(String gifId, String text, int userId) {
-        GIF gif = gifRepository.findByGif(gifId).get();
+        GIF gif = gifRepository.findByGifId(gifId).get();
         Optional<Comment> comment = commentRepository.findByGifAndUser_id(gif, userId);
         if (comment.isPresent()) {
             Comment updated = comment.get();
@@ -58,7 +60,7 @@ public class CommentService {
     }
     
     public String delete(String gifId, int userId) {
-        GIF gif = gifRepository.findByGif(gifId).get();
+        GIF gif = gifRepository.findByGifId(gifId).get();
         Optional<Comment> comment = commentRepository.findByGifAndUser_id(gif, userId);
         if (comment.isPresent()) {
             commentRepository.delete(comment.get());

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { APIService } from '../api.service';
 import { RateCommentService } from './rate-comment.service';
+import { HistoryComponent } from './history/history.component';
 
 export interface Gif {
   id: string;

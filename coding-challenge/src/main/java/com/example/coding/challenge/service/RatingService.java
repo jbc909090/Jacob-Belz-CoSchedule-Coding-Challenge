@@ -10,7 +10,9 @@ import com.example.coding.challenge.models.Rating;
 import com.example.coding.challenge.repository.GIFRepository;
 import com.example.coding.challenge.repository.RatingRepository;
 import com.example.coding.challenge.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RatingService {
     RatingRepository ratingRepository;
     UserRepository userRepository;
@@ -24,7 +26,7 @@ public class RatingService {
     }
 
     public Rating create(String gifId, int rating_value, int userId) {
-        Rating rating = new Rating(gifRepository.findByGif(gifId).get(), rating_value, userRepository.findById(userId).get());
+        Rating rating = new Rating(gifRepository.findByGifId(gifId).get(), rating_value, userRepository.findById(userId).get());
         Optional<Rating> check = ratingRepository.findByGifAndUser_id(rating.getGif(), userId);
         if (check.isEmpty()) {
             //aka if you haven't already rated this GIF, save the rating else return null
@@ -34,13 +36,13 @@ public class RatingService {
     }
 
     public List<Rating> getAll(String gifId) {
-        GIF gif = gifRepository.findByGif(gifId).get();
+        GIF gif = gifRepository.findByGifId(gifId).get();
         List<Rating> list = ratingRepository.findAllByGif(gif);
         return list;
     }
 
     public Rating getSingle(String gifId, int userId) {
-        GIF gif = gifRepository.findByGif(gifId).get();
+        GIF gif = gifRepository.findByGifId(gifId).get();
         Optional<Rating> rating = ratingRepository.findByGifAndUser_id(gif, userId);
         if (rating.isPresent()) {
             // since you can only rate a gif once this works
@@ -49,7 +51,7 @@ public class RatingService {
         return null;
     }
     public Rating update(String gifId, int userId, int rating_value) {
-        GIF gif = gifRepository.findByGif(gifId).get();
+        GIF gif = gifRepository.findByGifId(gifId).get();
         Optional<Rating> rating = ratingRepository.findByGifAndUser_id(gif, userId);
         if (rating.isPresent()) {
             // since you can only rate a gif once this works
@@ -61,7 +63,7 @@ public class RatingService {
     }
 
     public String delete(String gifId, int userId) {
-        GIF gif = gifRepository.findByGif(gifId).get();
+        GIF gif = gifRepository.findByGifId(gifId).get();
         Optional<Rating> rating = ratingRepository.findByGifAndUser_id(gif, userId);
         if (rating.isPresent()) {
             // since you can only rate a gif once this works

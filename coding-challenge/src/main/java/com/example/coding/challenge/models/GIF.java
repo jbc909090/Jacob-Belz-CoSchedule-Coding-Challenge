@@ -1,9 +1,7 @@
 package com.example.coding.challenge.models;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
-@Component
 @Entity
 @Table(name = "GIFs")
 public class GIF {

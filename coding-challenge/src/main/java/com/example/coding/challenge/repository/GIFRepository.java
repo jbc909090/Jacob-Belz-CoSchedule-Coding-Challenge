@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GIFRepository extends JpaRepository<GIF, Integer> {
-    Optional<GIF> findByGif(String gif);
+    Optional<GIF> findByGifId(String gifId);
 }

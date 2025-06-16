@@ -3,11 +3,21 @@ import { RateCommentService } from '../rate-comment.service';
 import { Router } from '@angular/router';
 import { APIService } from '../../api.service';
 import { Gif } from '../gif-viewer.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+export interface GifIndex {
+  id: string;
+  url:  string;
+  rating: number;
+  comment: string;
+  index: number;
+}
 
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule, CommonModule],
   templateUrl: './history.component.html',
   styleUrl: './history.component.css'
 })
@@ -26,10 +36,25 @@ export class HistoryComponent implements OnInit, AfterContentInit {
           id: this.gifs.data[index].id,
           url: this.gifs.data[index].images.fixed_width.url,
           rating: 3,
-          comment: ""
+          comment: "",
+          index: index
         }}
       )});
   }
-  gifDisplay: Gif[] = [];
-
+  editComm(id: string, comm: string, index: number) {
+    this.rcService.putComment(id, comm).subscribe((data) => (this.gifDisplay[index].comment = data.comment));
+  }
+  editRate(id: string, rate: number, index: number) {
+    this.rcService.putRating(id, rate).subscribe((data) => (this.gifDisplay[index].rating = data.rating));
+  }
+  delRate(id: string, index: number) {
+    this.rcService.deleteRating(id).subscribe((data) => (this.gifDisplay[index].rating = 0))
+  }
+  delComm(id: string, index: number) {
+    this.rcService.deleteComment(id).subscribe((data) => (this.gifDisplay[index].comment = ""))
+  }
+  gifDisplay: GifIndex[] = [];
+  goToHome() {
+    this.router.navigate(['/home']);
+  }
 }

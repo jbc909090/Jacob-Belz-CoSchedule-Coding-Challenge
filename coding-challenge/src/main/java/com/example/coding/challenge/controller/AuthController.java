@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = { "http://localhost:4200" }, allowCredentials = "true")
 @RequestMapping("/auth") //Requests ending in /auth will go to this Controller
 public class AuthController {
     private final AuthService authService;

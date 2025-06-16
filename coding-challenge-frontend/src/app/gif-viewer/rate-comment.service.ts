@@ -27,33 +27,33 @@ export class RateCommentService {
   constructor(client: HttpClient) { 
     this.client = client;
   }
-  postComment(gifId: string, comment: string): Observable<Rating> {
-    return this.client.post<Rating>(this.url + gifId + this.url_comm, comment, {withCredentials: true});
+  postComment(gifId: string, comment: string): Observable<Comment> {
+    return this.client.post<Comment>(this.url + gifId + this.url_comm, comment, {withCredentials: true});
   }
-  getComment(gifId: string): Observable<Rating> {
-    return this.client.get<Rating>(this.url + gifId + this.url_comm, {withCredentials: true});
+  getComment(gifId: string): Observable<Comment> {
+    return this.client.get<Comment>(this.url + gifId + this.url_comm, {withCredentials: true});
   }
-  getAllComment(gifId: string): Observable<Array<Rating>> {
-    return this.client.get<Array<Rating>>(this.url + gifId + this.url_comm + "/all", {withCredentials: true});
+  getAllComment(gifId: string): Observable<Array<Comment>> {
+    return this.client.get<Array<Comment>>(this.url + gifId + this.url_comm + "/all", {withCredentials: true});
   }
-  putComment(gifId: string, comment: string): Observable<Rating> {
-    return this.client.put<Rating>(this.url + gifId + this.url_comm, comment, {withCredentials: true});
+  putComment(gifId: string, comment: string): Observable<Comment> {
+    return this.client.put<Comment>(this.url + gifId + this.url_comm, comment, {withCredentials: true});
   }
   deleteComment(gifId: string): Observable<string> {
     return this.client.get<string>(this.url + gifId + this.url_comm, {withCredentials: true});
   }
 
-  postRating(gifId: string, rating: number): Observable<Comment> {
-    return this.client.post<Comment>(this.url + gifId + this.url_rate, rating, {withCredentials: true});
+  postRating(gifId: string, rating: number): Observable<Rating> {
+    return this.client.post<Rating>(this.url + gifId + this.url_rate, rating, {withCredentials: true});
   }
-  getRating(gifId: string): Observable<Comment> {
-    return this.client.get<Comment>(this.url + gifId + this.url_rate, {withCredentials: true});
+  getRating(gifId: string): Observable<Rating> {
+    return this.client.get<Rating>(this.url + gifId + this.url_rate, {withCredentials: true});
   }
-  getAllRating(gifId: string): Observable<Array<Comment>> {
-    return this.client.get<Array<Comment>>(this.url + gifId + this.url_rate + "/all", {withCredentials: true});
+  getAllRating(gifId: string): Observable<Array<Rating>> {
+    return this.client.get<Array<Rating>>(this.url + gifId + this.url_rate + "/all", {withCredentials: true});
   }
-  putRating(gifId: string, rating: number): Observable<Comment> {
-    return this.client.put<Comment>(this.url + gifId + this.url_rate, rating, {withCredentials: true});
+  putRating(gifId: string, rating: number): Observable<Rating> {
+    return this.client.put<Rating>(this.url + gifId + this.url_rate, rating, {withCredentials: true});
   }
   deleteRating(gifId: string): Observable<string> {
     return this.client.get<string>(this.url + gifId + this.url_rate, {withCredentials: true});

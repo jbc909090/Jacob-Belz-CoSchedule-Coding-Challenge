@@ -2,7 +2,24 @@
     <h2>See your previous comments and ratings</h2>
     <div *ngFor="let item of gifDisplay" class="gif-item">
         <img [src]="item.url">
-        <p>{{item.rating}}★</p>
-        <p>{{item.comment}}</p>
+        <div *ngIf="item.rating">
+            <p>{{item.rating}}★</p>
+            <select [(ngModel)]="item.rating">
+                <option value="1">1★</option>
+                <option value="2">2★</option>
+                <option value="3">3★</option>
+                <option value="4">4★</option>
+                <option value="5">5★</option>
+            </select>
+            <button (click)="editRate(item.id, item.rating, item.index)">Edit Posted Rating</button>
+            <button (click)="delRate(item.id, item.index)">Delete Posted Rating</button>
+        </div>
+        <div *ngIf="item.comment">
+            <p>{{item.comment}}</p>
+            <input class="gif-input" [(ngModel)]="item.comment" name="comment" required/>
+            <button (click)="editComm(item.id, item.comment, item.index)">Edit Posted Comment</button>
+            <button (click)="delComm(item.id, item.index)">Delete Posted Comment</button>
+        </div>
     </div>
+    <button class="GIF-button" (click)="goToHome()">Search for more gifs</button>
 </div>

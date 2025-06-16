@@ -22,6 +22,6 @@ export class AuthServiceService {
     return this.client.post<OutgoingUserDTO>(this.url + "/login", {username, password}, {withCredentials: true});
   }
   register(username: string, password: string): Observable<Object> {
-    return this.client.post<OutgoingUserDTO>(this.url + "/register", { username, password}, {withCredentials: true});
+    return this.client.post<OutgoingUserDTO>(this.url + "/register", {username, password}, {withCredentials: true});
   }
 }

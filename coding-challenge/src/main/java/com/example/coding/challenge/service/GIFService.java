@@ -45,7 +45,7 @@ public class GIFService {
         return response;
     }
     public GIF saveGIF(String id) {
-        Optional<GIF> check = gifRepository.findByGif(id);
+        Optional<GIF> check = gifRepository.findByGifId(id);
         if (check.isPresent()) {
             return null;
         }

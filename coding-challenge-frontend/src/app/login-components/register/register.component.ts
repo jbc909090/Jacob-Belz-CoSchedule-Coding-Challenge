@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AuthServiceService } from '../auth-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +18,7 @@ export class RegisterComponent {
   constructor(private authService: AuthServiceService, private router: Router) {}
   onSubmit() {
     if (this.password == this.password2) {
-      this.authService.login(this.username, this.password).subscribe({
+      this.authService.register(this.username, this.password).subscribe({
         next: (res) => {
           this.router.navigate(['/home']);
         },
@@ -32,6 +31,6 @@ export class RegisterComponent {
     }
   }
   goToLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 }

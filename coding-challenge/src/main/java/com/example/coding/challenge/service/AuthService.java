@@ -8,7 +8,9 @@ import com.example.coding.challenge.models.User;
 import com.example.coding.challenge.models.DTOs.LoginDTO;
 import com.example.coding.challenge.models.DTOs.OutgoingUserDTO;
 import com.example.coding.challenge.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuthService {
     UserRepository userRepository;
 
