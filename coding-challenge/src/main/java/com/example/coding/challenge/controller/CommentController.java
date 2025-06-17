@@ -3,8 +3,10 @@ package com.example.coding.challenge.controller;
 
 import com.example.coding.challenge.models.Comment;
 import com.example.coding.challenge.models.DTOs.CommentDTO;
+import com.example.coding.challenge.models.GIF;
 import com.example.coding.challenge.service.CommentService;
 
+import com.example.coding.challenge.service.GIFService;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:4200" }, allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("{gifId}/comment") //Requests ending in /{gifId}/comment will go to this Controller
 public class CommentController {
     private final CommentService commentService;
+    private final GIFService gifService;
 
     @Autowired
-    public CommentController (CommentService commentService) {
+    public CommentController (CommentService commentService, GIFService gifService) {
+        this.gifService = gifService;
         this.commentService = commentService;
     }
 
@@ -41,6 +45,7 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<CommentDTO> createComment (@PathVariable String gifId, @RequestBody String comment_text) {
+        gifService.saveGIF(gifId);
         Comment comment = commentService.create(gifId, comment_text, getId());
         CommentDTO response = new CommentDTO(comment.getGif(), comment.getUser(), comment.getComment(), comment.getCommentId());
         return ResponseEntity.ok(response);
@@ -70,6 +75,7 @@ public class CommentController {
     @DeleteMapping
     public ResponseEntity<String> DeleteSpecificComment (@PathVariable String gifId) {
         String response = commentService.delete(gifId, getId());
+        System.out.println(response);
         return ResponseEntity.ok(response);
     }
 }

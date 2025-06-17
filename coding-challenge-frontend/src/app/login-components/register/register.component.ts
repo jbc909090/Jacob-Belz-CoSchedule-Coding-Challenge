@@ -18,14 +18,8 @@ export class RegisterComponent {
   constructor(private authService: AuthServiceService, private router: Router) {}
   onSubmit() {
     if (this.password == this.password2) {
-      this.authService.register(this.username, this.password).subscribe({
-        next: (res) => {
-          this.router.navigate(['/home']);
-        },
-        error: (err) => {
-          console.error('Login failed', err);
-        }
-      });
+      this.authService.register(this.username, this.password).subscribe((data) =>
+      this.router.navigate(['/']));
     } else {
       console.log('Password mismatched');
     }

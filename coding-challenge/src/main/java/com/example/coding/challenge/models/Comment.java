@@ -12,12 +12,12 @@ public class Comment {
     private int commentId;
 
     //foreign key to users
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
 
     // foreign key to the associated GIF
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gifId")
     private GIF gif;
 
@@ -25,6 +25,7 @@ public class Comment {
     private String comment = "";
 
     //----------------- all boilerplate below this line -----------
+    public Comment() {}
     public Comment(GIF gif, String comment, User user) {
         this.comment = comment;
         this.gif = gif;

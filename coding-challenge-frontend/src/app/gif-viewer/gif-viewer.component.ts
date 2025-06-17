@@ -53,8 +53,10 @@ export class GifViewerComponent {
     this.rcService.postGif(id);
   }
   rate(id: string, rate: number) {
-    this.rcService.postRating(id, rate).subscribe((data)=> console.log(data));
-    this.rcService.postGif(id);
+    console.log(id)
+    console.log(rate)
+    this.rcService.postRating(id, rate).subscribe((data)=> (console.log(data),
+    this.rcService.postGif(id)));
   }
   goToHistory() {
     this.router.navigate(['/history']);

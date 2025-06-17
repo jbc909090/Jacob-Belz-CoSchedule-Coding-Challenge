@@ -1,7 +1,9 @@
 package com.example.coding.challenge.controller;
 
 import com.example.coding.challenge.models.DTOs.RatingDTO;
+import com.example.coding.challenge.models.GIF;
 import com.example.coding.challenge.models.Rating;
+import com.example.coding.challenge.service.GIFService;
 import com.example.coding.challenge.service.RatingService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:4200" }, allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("{gifId}/rating") //Requests ending in /{gifId}/rating will go to this Controller
 public class RatingController {
     private final RatingService ratingService;
+    private final GIFService gifService;
 
     @Autowired
-    public RatingController (RatingService ratingService) {
+    public RatingController (RatingService ratingService, GIFService gifService) {
+        this.gifService = gifService;
         this.ratingService = ratingService;
     }
 
@@ -38,6 +42,7 @@ public class RatingController {
 
     @PostMapping
     public ResponseEntity<RatingDTO> createRating (@PathVariable String gifId, @RequestBody int rating_value) {
+        gifService.saveGIF(gifId);
         Rating rate = ratingService.create(gifId, rating_value, getId());
         RatingDTO response = new RatingDTO(rate.getGif(), rate.getUser(), rate.getRating(), rate.getRatingId());
         return ResponseEntity.ok(response);

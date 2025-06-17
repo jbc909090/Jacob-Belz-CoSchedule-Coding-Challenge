@@ -23,6 +23,7 @@ public class User {
     private String role = "user";
 
     //----------------- all boilerplate below this line -----------
+    public User() {}
     public User(String username, String password) {
         this.username = username;
         this.password = password;

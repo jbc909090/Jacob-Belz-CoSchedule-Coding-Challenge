@@ -10,8 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:4200" }, allowCredentials = "true")
-@RequestMapping("/auth") //Requests ending in /auth will go to this Controller
+@RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+//Requests ending in /auth will go to this Controller
 public class AuthController {
     private final AuthService authService;
 
@@ -34,6 +35,7 @@ public class AuthController {
         session.setAttribute("userId", loggedInUser.getUserId());
         session.setAttribute("username", loggedInUser.getUsername());
         session.setAttribute("role", loggedInUser.getRole());
+        System.out.println("User " + session.getAttribute("username") + " has logged in!");
         return ResponseEntity.ok(loggedInUser);
     }
 }

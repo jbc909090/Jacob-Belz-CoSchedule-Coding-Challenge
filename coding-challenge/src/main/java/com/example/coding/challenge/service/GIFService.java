@@ -10,10 +10,8 @@ import com.example.coding.challenge.repository.RatingRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,20 +27,34 @@ public class GIFService {
         this.commentRepository = commentRepository;
         this.ratingRepository = ratingRepository;
     }
-    public List<String> allAssociatedGifs(int userId) {
+    public List<GifDTO> allAssociatedGifs(int userId) {
         List<Rating> ratings = ratingRepository.findByUser_id(userId);
         List<Comment> comments = commentRepository.findByUser_id(userId);
-        List<String> response = new ArrayList<>();
         List<String> temp = new ArrayList<>();
-        for(Comment c: comments) {
-            response.add(c.getGif().getGifId());
-        }
+        List<GifDTO> gifs = new ArrayList<>();
+        List<GifDTO> gifs2 = new ArrayList<>();
         for (Rating r : ratings) {
             temp.add(r.getGif().getGifId());
+            GifDTO g = new GifDTO(r.getGif().getGifId());
+            g.setRating(r.getRating());
+            gifs.add(g);
         }
-        response.removeAll(temp);
-        response.addAll(temp);
-        return response;
+        for(Comment c: comments) {
+            if (temp.contains(c.getGif().getGifId())) {
+                int i = temp.indexOf(c.getGif().getGifId());
+                GifDTO g = gifs.get(i);
+                g.setComment(c.getComment());
+                gifs2.add(g);
+                gifs.remove(i);
+                temp.remove(i);
+            } else {
+                GifDTO g = new GifDTO(c.getGif().getGifId());
+                g.setComment(c.getComment());
+                gifs2.add(g);
+            }
+        }
+        gifs.addAll(gifs2);
+        return gifs;
     }
     public GIF saveGIF(String id) {
         Optional<GIF> check = gifRepository.findByGifId(id);

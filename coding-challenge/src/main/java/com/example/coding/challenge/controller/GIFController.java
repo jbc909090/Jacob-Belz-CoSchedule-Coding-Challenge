@@ -13,7 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:4200" }, allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/api") //Requests ending in /api will go to this Controller
 public class GIFController {
     //exists to be a middle point between the user and the API
@@ -38,8 +38,8 @@ public class GIFController {
     }
     //retrieves all relevant gif ids
     @GetMapping()
-    public ResponseEntity<List<String>> getAllAssociatedGifs () {
-        List<String> response = gifService.allAssociatedGifs(getId());
+    public ResponseEntity<List<GifDTO>> getAllAssociatedGifs () {
+        List<GifDTO> response = gifService.allAssociatedGifs(getId());
         return ResponseEntity.ok(response);
     }
     //saves a gif to the gif id database

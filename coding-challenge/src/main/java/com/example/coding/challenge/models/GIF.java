@@ -17,7 +17,7 @@ public class GIF {
 
 
     //----------------- all boilerplate below this line -----------
-
+    public GIF() {}
     public GIF(String gifId) {
         this.gifId = gifId;
     }

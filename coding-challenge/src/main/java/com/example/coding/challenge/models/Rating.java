@@ -11,12 +11,12 @@ public class Rating {
     private int ratingId;
 
     //foreign key to users
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
 
     // foreign key to the associated GIF
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gifId")
     private GIF gif;
 
@@ -24,6 +24,7 @@ public class Rating {
     private int rating;
 
     //----------------- all boilerplate below this line -----------
+    public Rating() {}
     public Rating(GIF gif, int rating, User user) {
         this.gif = gif;
         this.rating = rating;

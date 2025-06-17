@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -13,6 +13,11 @@ export interface Rating {
   ratingId: number;
   userId: number;
   gif: string;
+  rating: number;
+}
+export interface GifDTO {
+  comment: string;
+  url: string;
   rating: number;
 }
 
@@ -40,11 +45,11 @@ export class RateCommentService {
     return this.client.put<Comment>(this.url + gifId + this.url_comm, comment, {withCredentials: true});
   }
   deleteComment(gifId: string): Observable<string> {
-    return this.client.get<string>(this.url + gifId + this.url_comm, {withCredentials: true});
+    return this.client.delete<string>(this.url + gifId + this.url_comm, {withCredentials: true});
   }
 
   postRating(gifId: string, rating: number): Observable<Rating> {
-    return this.client.post<Rating>(this.url + gifId + this.url_rate, rating, {withCredentials: true});
+    return this.client.post<Rating>(this.url + gifId + this.url_rate, rating, {headers: new HttpHeaders({'Content-Type': 'application/json'}), withCredentials: true});
   }
   getRating(gifId: string): Observable<Rating> {
     return this.client.get<Rating>(this.url + gifId + this.url_rate, {withCredentials: true});
@@ -53,17 +58,17 @@ export class RateCommentService {
     return this.client.get<Array<Rating>>(this.url + gifId + this.url_rate + "/all", {withCredentials: true});
   }
   putRating(gifId: string, rating: number): Observable<Rating> {
-    return this.client.put<Rating>(this.url + gifId + this.url_rate, rating, {withCredentials: true});
+    return this.client.put<Rating>(this.url + gifId + this.url_rate, rating, {headers: new HttpHeaders({'Content-Type': 'application/json'}), withCredentials: true});
   }
   deleteRating(gifId: string): Observable<string> {
-    return this.client.get<string>(this.url + gifId + this.url_rate, {withCredentials: true});
+    return this.client.delete<string>(this.url + gifId + this.url_rate, {withCredentials: true});
   }
   //gif stuff for history
-  url_gif = "/api"
+  url_gif = "api"
   postGif(gifId: string): Observable<string> {
     return this.client.post<string>(this.url + this.url_gif + "/save", gifId, {withCredentials: true});
   }
-  getAllGif(): Observable<Array<string>> {
-    return this.client.get<Array<string>>(this.url + this.url_gif, {withCredentials: true});
+  getAllGif(): Observable<Array<GifDTO>> {
+    return this.client.get<Array<GifDTO>>(this.url + this.url_gif, {withCredentials: true});
   }
 }

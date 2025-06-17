@@ -1,8 +1,11 @@
 package com.example.coding.challenge.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.coding.challenge.models.Comment;
+import com.example.coding.challenge.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.coding.challenge.models.GIF;
@@ -26,51 +29,61 @@ public class RatingService {
     }
 
     public Rating create(String gifId, int rating_value, int userId) {
-        Rating rating = new Rating(gifRepository.findByGifId(gifId).get(), rating_value, userRepository.findById(userId).get());
-        Optional<Rating> check = ratingRepository.findByGifAndUser_id(rating.getGif(), userId);
-        if (check.isEmpty()) {
-            //aka if you haven't already rated this GIF, save the rating else return null
-            return ratingRepository.save(rating);
+        Optional<GIF> g = gifRepository.findByGifId(gifId);
+        Optional<User> u = userRepository.findById(userId);
+        if (u.isPresent() && g.isPresent()) {
+            Rating rating = new Rating(g.get(), rating_value, u.get());
+            Optional<Rating> check = ratingRepository.findByGifAndUser_id(rating.getGif(), userId);
+            if (check.isEmpty()) {
+                //aka if you haven't already rated this GIF, save the rating else return null
+                return ratingRepository.save(rating);
+            }
         }
         return null;
     }
 
     public List<Rating> getAll(String gifId) {
-        GIF gif = gifRepository.findByGifId(gifId).get();
-        List<Rating> list = ratingRepository.findAllByGif(gif);
+        Optional<GIF> g = gifRepository.findByGifId(gifId);
+        List<Rating> list = new ArrayList<>();
+        if (g.isPresent()) {
+            list = ratingRepository.findAllByGif(g.get());
+        }
         return list;
     }
 
     public Rating getSingle(String gifId, int userId) {
-        GIF gif = gifRepository.findByGifId(gifId).get();
-        Optional<Rating> rating = ratingRepository.findByGifAndUser_id(gif, userId);
-        if (rating.isPresent()) {
-            // since you can only rate a gif once this works
-            return rating.get();
+        Optional<GIF> g = gifRepository.findByGifId(gifId);
+        if(g.isPresent()) {
+            Optional<Rating> rating = ratingRepository.findByGifAndUser_id(g.get(), userId);
+            if (rating.isPresent()) {
+                // since you can only rate a gif once this works
+                return rating.get();
+            }
         }
         return null;
     }
     public Rating update(String gifId, int userId, int rating_value) {
-        GIF gif = gifRepository.findByGifId(gifId).get();
-        Optional<Rating> rating = ratingRepository.findByGifAndUser_id(gif, userId);
-        if (rating.isPresent()) {
-            // since you can only rate a gif once this works
-            Rating updated = rating.get();
-            updated.setRating(rating_value);
-            return ratingRepository.save(updated);
+        Optional<GIF> g = gifRepository.findByGifId(gifId);
+        if (g.isPresent()) {
+            Optional<Rating> rating = ratingRepository.findByGifAndUser_id(g.get(), userId);
+            if (rating.isPresent()) {
+                // since you can only rate a gif once this works
+                Rating updated = rating.get();
+                updated.setRating(rating_value);
+                return ratingRepository.save(updated);
+            }
         }
         return null;
     }
 
     public String delete(String gifId, int userId) {
-        GIF gif = gifRepository.findByGifId(gifId).get();
-        Optional<Rating> rating = ratingRepository.findByGifAndUser_id(gif, userId);
-        if (rating.isPresent()) {
-            // since you can only rate a gif once this works
-            ratingRepository.delete(rating.get());
-            return "Successful";
+        Optional<Rating> r = ratingRepository.findByGif_gifIdAndUser_id(gifId, userId);
+        if (r.isPresent()) {
+            ratingRepository.deleteById(r.get().getRatingId());
+            return "Deleted comment";
+        } else {
+            return "No such comment found";
         }
-        return "No such rating found";
     }
 
 }

@@ -4,20 +4,20 @@
         <img [src]="item.url">
         <div *ngIf="item.rating">
             <p>{{item.rating}}★</p>
-            <select [(ngModel)]="item.rating">
+            <select [(ngModel)]="item.rating_new">
                 <option value="1">1★</option>
                 <option value="2">2★</option>
                 <option value="3">3★</option>
                 <option value="4">4★</option>
                 <option value="5">5★</option>
             </select>
-            <button (click)="editRate(item.id, item.rating, item.index)">Edit Posted Rating</button>
+            <button (click)="editRate(item.id, item.rating_new, item.index)">Edit Posted Rating</button>
             <button (click)="delRate(item.id, item.index)">Delete Posted Rating</button>
         </div>
         <div *ngIf="item.comment">
             <p>{{item.comment}}</p>
-            <input class="gif-input" [(ngModel)]="item.comment" name="comment" required/>
-            <button (click)="editComm(item.id, item.comment, item.index)">Edit Posted Comment</button>
+            <input class="gif-input" [(ngModel)]="item.comment_new" name="comment" required/>
+            <button (click)="editComm(item.id, item.comment_new, item.index)">Edit Posted Comment</button>
             <button (click)="delComm(item.id, item.index)">Delete Posted Comment</button>
         </div>
     </div>
